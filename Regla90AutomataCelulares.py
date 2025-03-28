@@ -2,23 +2,19 @@ from collections import deque
 
 def AplicarRegla90(estadoInicial, pasos):
     longitud = len(estadoInicial)
-    matrizEvolucion = [estadoInicial[:]]  # Copia del estado inicial
-    
-    estado_actual = deque(estadoInicial)  # Usamos deque para simular lista circular
-    
-    for _ in range(pasos):
-        nuevo_estado = [0] * longitud
-        for j in range(longitud):  # Se evalúa cada celda de manera circular
-            izquierda = estado_actual[j - 1]  # Índice circular
-            derecha = estado_actual[(j + 1) % longitud]  # Índice circular
-            nuevo_estado[j] = (izquierda + derecha) % 2
-        
-        estado_actual = deque(nuevo_estado)  # Actualizamos el estado
-        matrizEvolucion.append(nuevo_estado[:])  # Guardamos copia
-    
+    matrizEvolucion = [estadoInicial[:]]
+    estadoActual = deque(estadoInicial)
+    for i in range(pasos):
+        nuevoEstado = [0] * longitud
+        for j in range(longitud):
+            izquierda = estadoActual[j - 1]
+            derecha = estadoActual[(j + 1) % longitud]
+            nuevoEstado[j] = (izquierda + derecha) % 2
+        estadoActual = deque(nuevoEstado)
+        matrizEvolucion.append(nuevoEstado[:])
     return matrizEvolucion
 
-def solicitarEstadoInicial():
+def SolicitarEstadoInicial():
     print("Ingrese el estado inicial de las celdas (solo 0 y 1) separados por comas.")
     print("Ejemplo: 0,0,1,0,0,1,0")
     while True:
@@ -64,7 +60,7 @@ def main():
     print(" Bienvenido a la Simulación de la Regla 90")
     print("=" * 50 + "\n")
 
-    estadoInicial = solicitarEstadoInicial()
+    estadoInicial = SolicitarEstadoInicial()
     pasos = SolicitarPasos()
 
     resultado = AplicarRegla90(estadoInicial, pasos)
